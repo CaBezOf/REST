@@ -4,7 +4,7 @@ const router = express.Router();
 //RETORNA TODOS OS PRODUTOS
 router.get('/', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Retorna um produto'
+        mensagem: 'Retorna todod os produtos'
     });
 });
 
