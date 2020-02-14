@@ -71,7 +71,7 @@ router.get('/:id_produto', (req,res,next) => {
             (error, result, fields) => {
                 if (error) { return res.status(500).send({ error: error}) }
                 
-                if (resultado.length == 0) {
+                if (result.length == 0) {
                     return res.status(404).send({
                         mensagem: 'Não foi encontrado produto com esse ID'
                     })
@@ -89,7 +89,7 @@ router.get('/:id_produto', (req,res,next) => {
                         }
                     }
                 }
-                return res.status(200).send({response: result})
+                return res.status(200).send(response)
             }
         )
     });    
@@ -121,17 +121,13 @@ router.patch('/', (req,res,next) => {
                         request: {
                             tipo: 'GET',
                             descricao: 'Retorna os detalhes de um produto',
-                            url: 'http://localhost:3000/produtos/' + prod.id_produto
+                            url: 'http://localhost:3000/produtos/' + req.body.id_produto
                         }
                     }
                 }
-                return res.status(200).send(response);
-            }
-                res.status(202).send({
-                    mensagem: 'Produto alterado com sucesso',
-                    
-                });
-            }
+                return res.status(202).send(response);
+            }     
+            
         )
     });
 });
@@ -146,10 +142,19 @@ router.delete('/', (req,res,next) => {
                 conn.release();
 
                 if (error) { return res.status(500).send({ error: error}) }
-                res.status(202).send({
+                const response = {
                     mensagem: 'Produto removido com sucesso',
-                    
-                });
+                    request: {
+                        tipo: 'POST',
+                        descricao: 'Insere um produto',
+                        url: 'http://localhost:3000/produtos/',
+                        body: {
+                            nome: 'String',
+                            preco: 'Number',
+                        }
+                    }
+                }
+                return res.status(202).send(response);
             }
         )
     });
